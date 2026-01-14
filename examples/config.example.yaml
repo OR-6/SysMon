@@ -1,0 +1,47 @@
+# SysMon Configuration Example
+# Copy to ~/.config/sysmon/config.yaml and customize
+
+display:
+  # Refresh interval in seconds
+  refresh_interval: 2
+  
+  # Show individual CPU core usage
+  show_per_cpu: false
+  
+  # Display top processes
+  show_processes: true
+  
+  # Number of processes to show
+  process_count: 5
+  
+  # Width of progress bars
+  progress_bar_width: 30
+
+storage:
+  # Enable data persistence
+  enabled: false
+  
+  # Storage backend: 'json' or 'sqlite'
+  backend: json
+  
+  # Storage location
+  path: ~/.local/share/sysmon/data
+  
+  # Maximum number of records to keep
+  max_records: 1000
+
+logging:
+  # Enable logging
+  enabled: true
+  
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: INFO
+  
+  # Log directory
+  path: ~/.local/share/sysmon/logs
+  
+  # Maximum log file size in MB
+  max_size_mb: 10
+  
+  # Number of backup log files to keep
+  backup_count: 3
