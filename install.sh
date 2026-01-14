@@ -6,34 +6,49 @@ set -e
 echo "=== SysMon Installation ==="
 echo ""
 
+# Detect Python command
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+    PIP_CMD="pip3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+    PIP_CMD="pip"
+else
+    echo "Error: Python not found!"
+    exit 1
+fi
+
 # Check Python version
-echo "Python version: $(python3 --version)"
+echo "Python version: $($PYTHON_CMD --version)"
 
 # Install dependencies
 echo ""
 echo "Installing dependencies..."
-pip3 install -r requirements.txt
+$PIP_CMD install -r requirements.txt
 
 # Install package in development mode
 echo ""
 echo "Installing SysMon package..."
-pip3 install -e .
+$PIP_CMD install -e .
 
 echo ""
 echo "✓ SysMon installed successfully!"
 
 # Make shell script executable
-chmod +x sysmon
+if [ -f "sysmon" ]; then
+    chmod +x sysmon
+    echo "✓ Made launcher script executable"
+fi
 
 echo ""
 echo "=== How to use SysMon ==="
 echo ""
 echo "Option 1: Use the launcher script (Recommended)"
 echo "  ./sysmon monitor                    (Unix/Linux/Mac)"
-echo "  python3 run.py monitor              (All platforms)"
+echo "  $PYTHON_CMD run.py monitor          (All platforms)"
 echo ""
 echo "Option 2: Use Python module directly"
-echo "  python3 -m sysmon.cli monitor"
+echo "  $PYTHON_CMD -m sysmon.cli monitor"
 echo ""
 echo "Option 3: Add to PATH for direct 'sysmon' command"
 echo "  sudo ln -s $(pwd)/sysmon /usr/local/bin/sysmon"

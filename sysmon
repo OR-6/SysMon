@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 # Cross-platform launcher for SysMon
 
+# Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-python3 "$SCRIPT_DIR/run.py" "$@"
+
+# Detect Python command
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+else
+    echo "Error: Python not found!"
+    exit 1
+fi
+
+# Run SysMon
+$PYTHON_CMD "$SCRIPT_DIR/run.py" "$@"
