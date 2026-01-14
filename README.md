@@ -95,9 +95,9 @@ bash install.sh
 sudo ln -s $(pwd)/sysmon /usr/local/bin/sysmon
 ```
 
-### From PyPI (Coming Soon)
+### From PyPI
 ```bash
-pip install sysmon
+pip install sysmonitor
 ```
 
 ### Requirements
@@ -428,7 +428,7 @@ Make sure you're not running SysMon on a very fast refresh interval. CPU measure
 
 ### How do I uninstall?
 ```bash
-pip uninstall sysmon
+pip uninstall sysmonitor
 ```
 
 ### Does this work over SSH?
