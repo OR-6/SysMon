@@ -154,10 +154,22 @@ class SystemMonitor:
             for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent', 'status']):
                 try:
                     pinfo = proc.info
+                    
+                    # Skip System Idle Process (PID 0) as it shows inverse CPU usage
+                    if pinfo['pid'] == 0:
+                        continue
+                    
+                    # Get actual CPU percentage
+                    cpu_pct = pinfo['cpu_percent'] or 0.0
+                    
+                    # Skip processes with 0% CPU to show more meaningful data
+                    if cpu_pct == 0.0:
+                        continue
+                    
                     processes.append(ProcessInfo(
                         pid=pinfo['pid'],
                         name=pinfo['name'],
-                        cpu_percent=pinfo['cpu_percent'] or 0.0,
+                        cpu_percent=cpu_pct,
                         memory_percent=pinfo['memory_percent'] or 0.0,
                         status=pinfo['status']
                     ))

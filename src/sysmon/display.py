@@ -25,14 +25,19 @@ class DashboardDisplay:
     def __init__(self):
         self.console = Console()
     
-    def create_progress_bar(self, percent: float, width: int = 20) -> str:
-        """Create a simple progress bar string."""
+    def create_progress_bar(self, percent: float, width: int = 20) -> Text:
+        """Create a simple progress bar as Rich Text object."""
         filled = int(width * percent / 100)
         bar = "█" * filled + "░" * (width - filled)
         
         # Color based on percentage
         color = get_alert_color(percent)
-        return f"[{color}]{bar}[/{color}] {percent:.1f}%"
+        
+        # Create Text object with proper styling
+        result = Text()
+        result.append(f"[{bar}] ", style=color)
+        result.append(f"{percent:.1f}%", style="white")
+        return result
     
     def create_header(self, snapshot: SystemSnapshot) -> Panel:
         """Create header panel with system info."""
@@ -65,7 +70,9 @@ class DashboardDisplay:
             content.append(f"Frequency: {cpu.frequency:.0f} MHz\n", style="white")
         
         content.append("Usage: ", style="white")
-        content.append(self.create_progress_bar(cpu.percent))
+        # Append the Text object directly
+        progress_bar = self.create_progress_bar(cpu.percent)
+        content.append_text(progress_bar)
         
         # Per-CPU usage if available
         if cpu.per_cpu:
@@ -90,7 +97,8 @@ class DashboardDisplay:
         content.append(f"Used: {mem.used_gb:.2f} GB\n", style="white")
         content.append(f"Available: {mem.available_gb:.2f} GB\n", style="white")
         content.append("Usage: ", style="white")
-        content.append(self.create_progress_bar(mem.percent))
+        progress_bar = self.create_progress_bar(mem.percent)
+        content.append_text(progress_bar)
         
         return Panel(
             content,
@@ -109,7 +117,8 @@ class DashboardDisplay:
         content.append(f"Used: {disk.used_gb:.2f} GB\n", style="white")
         content.append(f"Free: {disk.free_gb:.2f} GB\n", style="white")
         content.append("Usage: ", style="white")
-        content.append(self.create_progress_bar(disk.percent))
+        progress_bar = self.create_progress_bar(disk.percent)
+        content.append_text(progress_bar)
         
         return Panel(
             content,
@@ -169,9 +178,9 @@ class DashboardDisplay:
         """Create complete dashboard layout."""
         layout = Layout()
         
-        # Split into sections
+        # Split into sections with better proportions
         layout.split_column(
-            Layout(name="header", size=6),
+            Layout(name="header", size=7),  # Increased from 6
             Layout(name="main", ratio=1),
             Layout(name="footer", size=3)
         )

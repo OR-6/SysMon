@@ -20,15 +20,63 @@ A beautiful, lightweight terminal-based system monitoring tool written in Python
 
 ## Quick Start
 
-### Installation
-```bash
-# Using pip
-pip install sysmon
+## Installation
 
-# From source
+### Windows
+```powershell
+# Clone the repository
 git clone https://github.com/OR-6/sysmon.git
 cd sysmon
-pip install -e .
+
+# Run installation script
+.\install.ps1
+
+# Optional: Add to PATH
+.\install.ps1 -AddToPath
+```
+
+### Linux / macOS
+```bash
+# Clone the repository
+git clone https://github.com/OR-6/sysmon.git
+cd sysmon
+
+# Run installation script
+bash install.sh
+
+# Optional: Add to system PATH
+sudo ln -s $(pwd)/sysmon /usr/local/bin/sysmon
+```
+
+### Using pip (All platforms)
+```bash
+pip install sysmon
+```
+
+## Usage
+
+### Windows
+```powershell
+# Using batch file
+.\sysmon.bat monitor
+
+# Using Python
+python run.py monitor
+```
+
+### Linux / macOS
+```bash
+# Using shell script
+./sysmon monitor
+
+# Using Python
+python3 run.py monitor
+```
+
+### All Platforms
+```bash
+# Using Python module
+python -m sysmon.cli monitor
 ```
 
 ### Basic Usage
